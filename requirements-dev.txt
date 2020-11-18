@@ -1,0 +1,6 @@
+ladon~=1.0.5
+robotframework
+robotstatuschecker
+suds-py3
+setuptools~=47.1.0
+Werkzeug~=0.14
