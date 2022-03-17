@@ -43,8 +43,8 @@ There are various support forums available:
   requests
 
 .. _forum: https://forum.robotframework.org/
-.. _issue tracker: https://github.com/mihaiparvu/Suds2Library/issues
-.. _keyword documentation: https://mihaiparvu.github.io/Suds2Library/Suds2Library.html
+.. _issue tracker: https://github.com/rticau/Suds2Library/issues
+.. _keyword documentation: https://rticau.github.io/Suds2Library/Suds2Library.html
 .. _pip: http://pip-installer.org
 .. _PyPI: https://pypi.python.org/pypi/robotframework-suds2library/
 .. _Python: http://python.org
