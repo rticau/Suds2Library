@@ -318,6 +318,30 @@ Unicode Attribute Value
     ${resp}    Call Soap Method    complexTypeArgument    ${person}
     Should Be Equal As Strings    ${resp}    Raúl Santiago
 
+Closing Client Expecting Error
+    Create Soap Client    ${CALCULATOR WSDL URL}    calc
+    ${sum}    Call Soap Method    add    1    1
+    Should Be Equal As Numbers    ${sum}    2
+    Close Connection
+    Run Keyword And Expect Error  MethodNotFound:*    Call Soap Method    add    1    1
+
+Two Clients Closing One
+    Create Soap Client    ${CALCULATOR WSDL URL}    calc
+    Create Soap Client    ${CALCULATOR WSDL URL}    calc
+    ${sum}    Call Soap Method    add    1    1
+    Should Be Equal As Numbers    ${sum}    2
+    Close Connection
+    ${sum}    Call Soap Method    add    2    2
+    Should Be Equal As Numbers    ${sum}    4
+
+Two Clients Close All And Expect Error
+    Create Soap Client    ${CALCULATOR WSDL URL}    calc
+    Create Soap Client    ${CALCULATOR WSDL URL}    calc
+    ${sum}    Call Soap Method    add    1    1
+    Should Be Equal As Numbers    ${sum}    2
+    Close All Connections
+    Run Keyword And Expect Error  No current client    Call Soap Method    add    2    2
+
 *** Keywords ***
 Default Socket Timeout Should Be
     [Arguments]    ${timeout}

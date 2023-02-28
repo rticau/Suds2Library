@@ -90,6 +90,43 @@ class _ClientManagementKeywords(object):
         """
         self._cache.switch(index_or_alias)
 
+    def close_connection(self):
+        """Closes the current connection from soap client.
+
+        Previous connection is made active by this keyword. Manually use
+        `Switch Connection` to switch to another connection.
+
+        Example:
+        | ${id} =            | `Create Soap Client`  | ... |
+        | # Do something ... |                       |     |
+        | `Close Connection` |
+        """
+        index = self._cache.current_index
+        self._cache._connections[index-1] = self._cache.current = self._cache._no_current
+        self._cache._connections.pop()
+        try:
+            self._cache.current=self._cache.get_connection(index-1)
+        except RuntimeError:
+            pass
+
+    def close_all_connections(self):
+        """Closes all open connections.
+        
+        This keyword is ought to be used either in test or suite teardown to
+        make sure all the connections are closed before the test execution
+        finishes.
+
+        After this keyword, the connection indices returned by
+        `Create Soap Client` are reset and start from ``1``.
+
+        Example:
+        | ${id} =            | `Create Soap Client`   |
+        | ${id} =            | `Create Soap Client    |
+        | # Do something with the connections         |
+        | [Teardown]        | `Close All Connections` |
+        """
+        self._cache.empty_cache()
+
     # PyAPI
 
     def _client(self):
