@@ -101,16 +101,15 @@ class _ClientManagementKeywords(object):
         | # Do something ... |                       |     |
         | `Close Connection` |
         """
-        try:
-            index = self._cache.current_index
-            self._cache._connections[index-1] = self._cache.current = self._cache._no_current
-            self._cache._connections.pop()
-            try:
-                self._cache.current=self._cache.get_connection(index-1)
-            except RuntimeError:
-                pass
-        except TypeError:
+        index = self._cache.current_index
+        if index is None:
             raise RuntimeError("No open connection.")
+        self._cache._connections[index-1] = self._cache.current = self._cache._no_current
+        self._cache._connections.pop()
+        try:
+            self._cache.current=self._cache.get_connection(index-1)
+        except RuntimeError:
+            pass
 
     def close_all_connections(self):
         """Closes all open connections.
