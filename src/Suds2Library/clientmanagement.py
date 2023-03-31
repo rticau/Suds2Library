@@ -102,6 +102,8 @@ class _ClientManagementKeywords(object):
         | `Close Connection` |
         """
         index = self._cache.current_index
+        if index is None:
+            raise RuntimeError("No open connection.")
         self._cache._connections[index-1] = self._cache.current = self._cache._no_current
         self._cache._connections.pop()
         try:
