@@ -21,7 +21,7 @@ class Util(object):
         """`nonce` should be Base64 encoded."""
         token = self._get_autousernametoken()
         token.autosetnonce = False
-        token.setnonce(base64.decodestring(nonce.encode('UTF-8')))
+        token.setnonce(base64.decodebytes(nonce.encode('UTF-8')))
 
     def set_fixed_created(self, created):
         """Set a fixed value for the created element.
