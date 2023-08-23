@@ -7,7 +7,7 @@ ${JOHN PARSONS}    <?xml version="1.0" encoding="utf-8"?><SOAP-ENV:Envelope xmln
 *** Test Cases ***
 Using A Local WSDL
     [Documentation]    Local copy of WSDL likely has incorrect locations.
-    Create Soap Client    resources/wsdls/Calculator.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/Calculator.wsdl
     ${sum}    Call Soap Method    add    1    41
     Should Be Equal As Numbers    ${sum}    42
 
@@ -58,7 +58,7 @@ Complex Type Argument
     Should Be Equal As Strings    ${resp}    Phillip McCann
 
 Set Port
-    Create Soap Client    resources/wsdls/TestService_ports.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_ports.wsdl
     Run Keyword And Expect Error    *    Call Soap Method    theAnswer
     Set Port    TestService
     Call Soap Method    theAnswer
@@ -69,7 +69,7 @@ Set Port
 
 Set Service
     Create Soap Client    ${TEST WSDL URL}
-    Create Soap Client    resources/wsdls/TestService_services.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_services.wsdl
     Run Keyword And Expect Error    *    Call Soap Method    theAnswer
     Set Service    TestService
     Call Soap Method    theAnswer
@@ -79,7 +79,7 @@ Set Service
     Call Soap Method    theAnswer
 
 Specific Call - Port
-    Create Soap Client    resources/wsdls/TestService_ports.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_ports.wsdl
     Run Keyword And Expect Error    *    Call Soap Method    theAnswer
     Specific Soap Call    ${None}    1    theAnswer
     Specific Soap Call    \    TestService    theAnswer
@@ -88,7 +88,7 @@ Specific Call - Port
     Specific Soap Call    ${EMPTY}    TestService    theAnswer
 
 Specific Call - Service
-    Create Soap Client    resources/wsdls/TestService_services.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_services.wsdl
     Run Keyword And Expect Error    *    Call Soap Method    theAnswer
     Set Service    HEY OH
     Specific Soap Call    1    ${None}    theAnswer
@@ -138,15 +138,15 @@ Two Clients Different Settings
     Should Be Equal As Strings    ${resp}    ${JOHN PARSONS}
 
 ImportDoctor
-    Create Soap Client    resources/wsdls/TestService_missing_import.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_missing_import.wsdl
     Run Keyword And Expect Error    TypeNotFound: Type not found: 'ns0:string'    Create Wsdl Object    ns0:string
     Add Doctor Import    http://schemas.xmlsoap.org/soap/encoding/
     Run Keyword And Expect Error    TypeNotFound: Type not found: 'ns0:string'    Create Wsdl Object    ns0:string
-    Create Soap Client    resources/wsdls/TestService_missing_import.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_missing_import.wsdl
     Create Wsdl Object    ns0:string
 
 SOAP Headers Using WSDL Object
-    Create Soap Client    resources/wsdls/soapheaders.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/soapheaders.wsdl
     ${auth header}    Create Wsdl Object    AuthHeader
     Set Wsdl Object Attribute    ${auth header}    UserName    gcarlson
     Set Wsdl Object Attribute    ${auth header}    Password    heyOh
@@ -157,7 +157,7 @@ SOAP Headers Using WSDL Object
     Should Contain    ${last sent}    <SOAP-ENV:Header><tns:AuthHeader><tns:UserName>gcarlson</tns:UserName><tns:Password>heyOh</tns:Password></tns:AuthHeader></SOAP-ENV:Header>
 
 SOAP Headers Using Dict
-    Create Soap Client    resources/wsdls/soapheaders.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/soapheaders.wsdl
     ${auth dict}    Create Dictionary    UserName    sjenson    Password    power
     Set Soap Headers    ${auth dict}
     Run Keyword And Ignore Error    Call Soap Method    DoIt
@@ -195,7 +195,7 @@ Set Location
     ${dict}    Evaluate    {'first-name':'George','last-name':'Cooper'}
     Run Keyword And Expect Error    *    Call Soap Method    complexTypeArgument    ${dict}
     Call Soap Method    theAnswer
-    Create Soap Client    resources/wsdls/TestService_services.wsdl
+    Create Soap Client    ${CURDIR}${/}resources/wsdls/TestService_services.wsdl
     Set Location    http://localhost:8080/TestService/soap11/    names=theAnswer
     Specific Soap Call    0    \    theAnswer
     Specific Soap Call    1    \    theAnswer
